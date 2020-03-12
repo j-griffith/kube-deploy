@@ -1,0 +1,19 @@
+---
+- name: apply common config to all nodes
+  hosts: all
+  remote_user: vagrant
+  become: true
+  roles:
+    - common
+- name: apply master config to all kubernetes-master
+  hosts: master 
+  remote_user: vagrant
+  become: true
+  roles:
+    - kubernetes/master
+- name: apply worker config to all kubernetes-worker-nodes 
+  hosts: worker
+  remote_user: vagrant
+  become: true
+  roles:
+    - kubernetes/worker 
