@@ -37,7 +37,7 @@
     - docker status
 - name: Add user to docker group
   user:
-    name: "{{ lookup('env', 'USER') }}"
+    name: "{{ ansible_user_id }}"
     group: docker
 - name: Remove swapfile from /etc/fstab
   mount:

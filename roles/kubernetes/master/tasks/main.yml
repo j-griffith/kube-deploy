@@ -1,13 +1,26 @@
 ---
+- name: Reset kubeadm
+  command: kubeadm reset -f
+  become: true
 - name: Run kubeadm init
   command: kubeadm init --apiserver-advertise-address="192.168.50.10" --apiserver-cert-extra-sans="192.168.50.10"  --node-name k8s-master --pod-network-cidr=192.168.0.0/16
-
+  become: true
 - name: Setup kubeconfig
-  command: "{{ item }}"
-  with_items:
-   - mkdir -p /home/vagrant/.kube
-   - cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
-   - chown vagrant:vagrant /home/vagrant/.kube/config
+  become: false
+  file:
+    path: "{{ ansible_user_dir }}/.kube"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+  become: true
+- name: Copy kubeconfig
+  shell: sudo cp /etc/kubernetes/admin.conf "{{ ansible_user_dir }}/.kube/config"
+- name: Set kubeconfig permisions
+  file:
+    path: "{{ ansible_user_dir }}/.kube/config"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+  become: true
 - name: Install calico pod network
   become: false
   command: kubectl apply -f https://docs.projectcalico.org/v3.11/manifests/calico.yaml

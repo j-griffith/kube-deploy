@@ -5,15 +5,13 @@
   become: true
   roles:
     - common
-- name: apply master config to all kubernetes-master
+- name: apply master config to all kubernetes-master-nodes
   hosts: master 
   remote_user: vagrant
-  become: true
   roles:
     - kubernetes/master
 - name: apply worker config to all kubernetes-worker-nodes 
   hosts: worker
   remote_user: vagrant
-  become: true
   roles:
     - kubernetes/worker 

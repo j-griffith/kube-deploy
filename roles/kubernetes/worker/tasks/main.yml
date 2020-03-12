@@ -1,4 +1,9 @@
 - name: Copy the join command to remote host
   copy: src=/tmp/join_command.sh dest=/tmp/join-command.sh mode=0777
+  become: true
+- name: Reset kubeadm just to be safe
+  command: kubeadm reset -f
+  become: true
 - name: Join the node to k8s cluster
   command: sh /tmp/join-command.sh
+  become: true
