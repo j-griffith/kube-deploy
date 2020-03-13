@@ -1,4 +1,4 @@
-IMAGE_NAME = "generic/ubuntu1804"
+IMAGE_NAME = "generic/debian10"
 N = 2
 
 Vagrant.configure("2") do |config|
