@@ -13,6 +13,8 @@ Vagrant.configure("2") do |config|
         v.memory = 2048
         v.cpus = 2
         v.nested = true
+        v.storage :file, :size => '10G', :type => 'raw'
+
     end
       
     config.vm.define "k8s-master" do |master|
